@@ -7,7 +7,7 @@ import java.util.Arrays;
 import java.util.Scanner;
 
 
-public class QuickSort {
+public class Heap {
 
 	 public static long recebeVetorEntrada(String arqEntrada, String arqSaida, int tamVetor) {
 
@@ -26,7 +26,7 @@ public class QuickSort {
         }
 
         long crono = System.currentTimeMillis();  
-        quickSort(vetEnt, 0, vetEnt.length - 1);
+        ordena(vetEnt);
         crono = System.currentTimeMillis() - crono;
         System.out.println("Quick Sort ordenou a sequência em: \t" + crono  + "\t milissegundo(s)");
 
@@ -43,52 +43,53 @@ public class QuickSort {
         return crono;
     }
 
-    public static int particiona(int[] vetor, int esquerda, int direita)
+    public static void heap(int[] vetor, int tamanho, int index){
+		
+		int pai = index;
+		int esquerda = 2*index + 1;
+		int direita = 2*index + 2;
+		
+		int aux;
+		
+		if(esquerda	< tamanho && vetor[esquerda] > vetor[pai]){
+			pai = esquerda;
+		}
+		
+		if(direita < tamanho && vetor[direita] > vetor[pai]){
+			pai = direita;
+		}
+		
+		if(pai != index){
+			aux = vetor[index];
+			vetor[index] = vetor[pai];
+			vetor[pai] = aux;
+			
+			heap(vetor, tamanho, pai);
+			
+		}
 
-{
-
-      int cont1 = esquerda;
-	  int cont2 = direita;
-      int aux;
-      int pivo = vetor[(esquerda + direita) / 2];
-
-     
-
-      while (cont1 <= cont2) {
-            while (vetor[cont1] < pivo){
-                  cont1++;
-			}
-            while (vetor[cont2] > pivo){
-                  cont2--;
-			}
-            if (cont1 <= cont2) {
-                  aux = vetor[cont1];
-                  vetor[cont1] = vetor[cont2];
-                  vetor[cont2] = aux;
-                  cont1++;
-                  cont2--;
-            }
-      }
-  
-
-      return cont1;
-
-}
+	}
 
  
 
-public static void quickSort(int[] vetor, int esquerda, int direita) {
+	public static void ordena(int[] vetor) {
 
-      int i = particiona(vetor, esquerda, direita);
+		int tamanho = vetor.length;
+		int aux;
+		
+		for (int i = tamanho/2 - 1; i >= 0; i--) {
+			heap(vetor,	tamanho, i);
+		}
+		
+		for(int i = tamanho-1 ; i>=0; i--){
+			aux = vetor[0];
+			vetor[0] = vetor[i];
+			vetor[i] = aux;
+			
+			heap(vetor, i, 0);
+		}
 
-      if (esquerda < i - 1){
-            quickSort(vetor, esquerda, i - 1);
-	  }
-      if (i < direita){
-            quickSort(vetor, i, direita);
-	  }
-
-}
+	}
 
     public static void main(String[] args) {
 
@@ -99,6 +100,6 @@ public static void quickSort(int[] vetor, int esquerda, int direita) {
         String arqEntrada = scan.next();
         System.out.print("Informe o nome do Arquivo que irá conter os números depois de ordenados: ");
         String arqSaida = scan.next();
-        QuickSort.recebeVetorEntrada(arqEntrada, arqSaida, tamVetor);
+        Heap.recebeVetorEntrada(arqEntrada, arqSaida, tamVetor);
     }
 }

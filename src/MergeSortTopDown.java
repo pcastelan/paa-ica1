@@ -1,29 +1,48 @@
 
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.PrintStream;
+import java.util.Arrays;
+import java.util.Scanner;
+
+
 public class MergeSortTopDown {
-	
-	
-	public static void main(String[] args) {
-		
-		int[] vetor = {1,2,9,12,6,4,7,3,1,44,99,125,6,5,666,9,4,96,6,465468,63,41,52,67,89,58};
+    public static long recebeVetorEntrada(String arqEntrada, String arqSaida, int tamVetor) {
 
-		
-		auxImprime(vetor);
-		ordena(vetor, 0, vetor.length-1);
-		auxImprime(vetor);
-		
-		
-	}
+        FileReader fr;
+        BufferedReader br;
+        int vetEnt[] = new int[tamVetor];
+        try {
+            fr = new FileReader(arqEntrada);
+            br = new BufferedReader(fr);
 
-	
-	
-	public static void auxImprime (int[] a){
-		for(int i = 0; i<a.length; i++){
-			System.out.println(i + " - " +a[i]);
-		}
-			System.out.println();
-	}
-	
+            for (int i = 0; i < vetEnt.length; i++) {
+                vetEnt[i] = Integer.parseInt(br.readLine());
+            }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+
+        long crono = System.currentTimeMillis();  
+        ordena(vetEnt, 0, vetEnt.length - 1);
+        crono = System.currentTimeMillis() - crono;
+        System.out.println("Merge Sort ordenou a sequência em: \t" + crono  + "\t milissegundo(s)");
+
+        try {
+            PrintStream ps;
+            ps = new PrintStream(arqSaida);
+            for (int i = 0; i < vetEnt.length; i++) {
+                ps.println(Arrays.toString(vetEnt));
+                break;
+            }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        return crono;
+    }
+
+
 	public static void ordena (int[] vetor, int inicio, int fim){
 		if(inicio >= fim)
 			return;
@@ -77,4 +96,16 @@ public class MergeSortTopDown {
 		
 			
 	}
+
+    public static void main(String[] args) {
+
+        Scanner scan = new Scanner(System.in);
+        System.out.print("Informe a quantidade de números a ser ordenada: ");
+        int tamVetor = scan.nextInt();
+        System.out.print("Informe o nome do Arquivo que contém os números a serem ordenados: ");
+        String arqEntrada = scan.next();
+        System.out.print("Informe o nome do Arquivo que irá conter os números depois de ordenados: ");
+        String arqSaida = scan.next();
+        MergeSortTopDown.recebeVetorEntrada(arqEntrada, arqSaida, tamVetor);
+    }
 }
