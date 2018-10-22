@@ -1,15 +1,27 @@
 
 
+
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.PrintStream;
 import java.util.Arrays;
-import java.util.Scanner;
 
 
-public class QuickSortTernario {
+public class QuickSortTernarioInsertionSort {
+	
+	public static void insertionSort(int[] vetor, int inicio, int fim){
+	for(int i = inicio+1; i<=fim; i++){
+		int aux = vetor[i];
+		int j=i-1;
+		for(;j>=0 && vetor[j]>=aux; j--){
+			vetor[j+1] = vetor[j];
+		}
+		vetor[j+1] = aux;
+	}
 
-	 public static long recebeVetorEntrada(String arqEntrada, String arqSaida, int tamVetor) {
+	
+}
+public static long recebeVetorEntrada(String arqEntrada, String arqSaida, int tamVetor) {
 
         FileReader fr;
         BufferedReader br;
@@ -42,35 +54,6 @@ public class QuickSortTernario {
         }
         return crono;
     }
-
-	public static void ordena(int vetor[], int inicio, int fim){
-		int tamanho = fim - inicio + 1;
-		
-        if (tamanho <= 1) {
-            return;
-        }
-		
-        if (tamanho == 2) {
-            if (vetor[inicio] > vetor[fim]) {
-                troca(vetor, inicio, fim);
-            }
-            return;
-        } else {
-			
-            if (vetor[inicio] > vetor[fim - 1]) {
-                troca(vetor, inicio, fim - 1);
-            }
-			
-            if (vetor[inicio] > vetor[fim]) {
-                troca(vetor, inicio, fim); 
-            }
-			
-            if (vetor[fim - 1] > vetor[fim]) {
-                troca(vetor, fim - 1, fim); 
-            }
-        }
-		
-	}
 
 	public static int particiona(int vetor[], int inicio, int fim, int pivo){
 		int esquerda = inicio;
@@ -119,9 +102,9 @@ public class QuickSortTernario {
 	
 	public static void reQuickSort(int [] vetor, int esquerda, int direita){
 		int size = direita - esquerda + 1;
-        if (size <= 3) // manual sort if small
+        if (size <= 100) 
         {
-            ordena(vetor, esquerda, direita);
+            insertionSort(vetor, esquerda, direita);
         } else // quicksort if large
         {
             int mediana = mediana(vetor, esquerda, direita);
@@ -148,7 +131,7 @@ public class QuickSortTernario {
 				for (int k = 0; k < 2; k++) {
 					arqEntrada = Integer.toString(i) + tipoS[j]+ "_"+ rptS[k] +".txt";
 			
-					QuickSortTernario.recebeVetorEntrada(arqEntrada, "saida/saida_"+arqEntrada, tamVetor);
+					QuickSortTernarioInsertionSort.recebeVetorEntrada(arqEntrada, "saida/saida_"+arqEntrada, tamVetor);
 				}
 			}
 		}

@@ -7,7 +7,8 @@ import java.util.Arrays;
 import java.util.Scanner;
 
 
-public class Heap {
+public class HeapSort {
+	
 
 	 public static long recebeVetorEntrada(String arqEntrada, String arqSaida, int tamVetor) {
 
@@ -28,7 +29,7 @@ public class Heap {
         long crono = System.currentTimeMillis();  
         ordena(vetEnt);
         crono = System.currentTimeMillis() - crono;
-        System.out.println("Quick Sort ordenou a sequência em: \t" + crono  + "\t milissegundo(s)");
+        System.out.println("Heap ordenou a "+arqEntrada+" em: \t" + crono  + "\t milissegundo(s)");
 
         try {
             PrintStream ps;
@@ -92,14 +93,28 @@ public class Heap {
 	}
 
     public static void main(String[] args) {
-
-        Scanner scan = new Scanner(System.in);
-        System.out.print("Informe a quantidade de números a ser ordenada: ");
-        int tamVetor = scan.nextInt();
-        System.out.print("Informe o nome do Arquivo que contém os números a serem ordenados: ");
-        String arqEntrada = scan.next();
-        System.out.print("Informe o nome do Arquivo que irá conter os números depois de ordenados: ");
-        String arqSaida = scan.next();
-        Heap.recebeVetorEntrada(arqEntrada, arqSaida, tamVetor);
+		String [] tipoS = {"aleatorio", "crescente", "descrescente"};
+		String [] rptS = {"distintos", "repetidos"};
+		String arqEntrada; 
+		for (int i = 100000; i <= 600000; i+=50000) {
+			int tamVetor = i;
+			for (int j = 0; j < 3; j++) {
+				for (int k = 0; k < 2; k++) {
+					arqEntrada = Integer.toString(i) + tipoS[j]+ "_"+ rptS[k] +".txt";
+			
+					HeapSort.recebeVetorEntrada(arqEntrada, "saida/saida_"+arqEntrada, tamVetor);
+				}
+			}
+		}
+		
+		
+//        Scanner scan = new Scanner(System.in);
+//        System.out.print("Informe a quantidade de números a ser ordenada: ");
+//        int tamVetor = scan.nextInt();
+//        System.out.print("Informe o nome do Arquivo que contém os números a serem ordenados: ");
+//        String arqEntrada = scan.next();
+//        System.out.print("Informe o nome do Arquivo que irá conter os números depois de ordenados: ");
+//        String arqSaida = scan.next();
+//        HeapSort.recebeVetorEntrada(arqEntrada, arqSaida, tamVetor);
     }
 }

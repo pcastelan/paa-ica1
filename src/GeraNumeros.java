@@ -99,80 +99,105 @@ public class GeraNumeros {
 		int lim;    // limite do random;
 		int tipo;   // organização dos elementos (0 - aleatório, 1 - crescente, 2 - decrescente)
 		int rpt;    // se os elementos são distintos ou não (0 - distintos, 1 - com repetição)
-		String nomeArq;
-		Random randomGenerator = null;
-	    FileWriter fileWriter = null;
-	    BufferedWriter bufferedWriter = null;
 		
-		Scanner keyboard = new Scanner(System.in);
+		String [] tipoS = {"aleatorio", "crescente", "descrescente"};
+		String [] rptS = {"distintos", "repetidos"};
+		
+		for (int i = 100000; i <= 600000; i+=50000) {
+			
+			tam = i;
+			
+			for (int j = 0; j <3; j++) {
+				tipo = j;
+				
+				for (int k = 0; k < 2; k++) {
+					rpt = k;
+										
+					if(rpt == 1) {
+						lim = tam/2;
+						
+						System.out.println("entrou");
+					} else {
+						lim = tam+1;
+					}
+					
+					String nomeArq;
+					Random randomGenerator = null;
+					FileWriter fileWriter = null;
+					BufferedWriter bufferedWriter = null;
 
-	    System.out.println("Como estao organizados os numeros?\n(0 - aleatorios; 1 - crescente; 2 - decrescente)");
-	    tipo = keyboard.nextInt();
-	    while(tipo < 0 || tipo > 2)
-	    {
-	        System.out.println("Como estao organizados os numeros?\n(0 - aleatorios; 1 - crescente; 2 - decrescente)");
-	        tipo = keyboard.nextInt();
-	    }
-	    System.out.println("Os elementos sao distintos ou pode haver repeticao?\n(0 - distintos; 1 - com repeticao");
-	    rpt = keyboard.nextInt();
-	    while(rpt != 0 && rpt != 1)
-	    {
-	    	System.out.println("Os elementos sao distintos ou pode haver repeticao?\n(0 - distintos; 1 - com repeticao");
-	    	rpt = keyboard.nextInt();
-	    }
-	    System.out.print("Informe o tamanho do vetor: ");
-	    tam = keyboard.nextInt();
-	    System.out.print("Informe o limite dos numeros: ");
-	    lim = keyboard.nextInt();
-	    while(rpt == 0 && lim < tam)
-	    {
-	    	System.out.println("ERRO: O limite deve ser maior ou igual ao tamanho do vetor!");
-	    	System.out.print("Informe o limite dos numeros: ");
-	    	lim = keyboard.nextInt();
-	    }
-	    while(rpt == 1 && lim >= tam)
-	    {
-	    	System.out.println("ERRO: O limite deve ser menor que o tamanho do vetor!");
-	    	System.out.print("Informe o limite dos numeros: ");
-	    	lim = keyboard.nextInt();
-	    }
-	    System.out.print("Informe o nome do arquivo de saida: ");
-	    nomeArq = keyboard.next();
+					Scanner keyboard = new Scanner(System.in);
 
-	    try
-	    {
-	    	fileWriter = new FileWriter(nomeArq);
-	    	bufferedWriter = new BufferedWriter(fileWriter);
-	    }
-	    catch(IOException ex)
-	    {
-            System.out.println("Erro ao criar o arquivo '" + nomeArq + "'");
-        }
 
-	    int[] vetor = new int[tam];
-	    randomGenerator = new Random();
+					while(tipo < 0 || tipo > 2)
+					{
+						System.out.println("Como estao organizados os numeros?\n(0 - aleatorios; 1 - crescente; 2 - decrescente)");
+						tipo = keyboard.nextInt();
+					}
 
-	    if(rpt == 0)
-	        geraNumerosDistintos(vetor, tam, lim, randomGenerator);
-	    else
-	        geraNumerosRepetidos(vetor, tam, lim, randomGenerator);
+					while(rpt != 0 && rpt != 1)
+					{
+						System.out.println("Os elementos sao distintos ou pode haver repeticao?\n(0 - distintos; 1 - com repeticao");
+						rpt = keyboard.nextInt();
+					}
 
-	    if(tipo == 1)
-	        ordena(vetor, tam, 1);
-	    else if(tipo == 2)
-	        ordena(vetor, tam, 2);
+					while(rpt == 0 && lim < tam)
+					{
+						System.out.println("ERRO: O limite deve ser maior ou igual ao tamanho do vetor!");
+						System.out.print("Informe o limite dos numeros: ");
+						lim = keyboard.nextInt();
+					}
+					while(rpt == 1 && lim >= tam)
+					{
+						System.out.println("ERRO: O limite deve ser menor que o tamanho do vetor!");
+						System.out.print("Informe o limite dos numeros: ");
+						lim = keyboard.nextInt();
+					}
+					System.out.print("Informe o nome do arquivo de saida: ");
+					nomeArq = Integer.toString(tam) + tipoS[tipo]+ "_"+ rptS[rpt] +".txt";
 
-	    imprimeVetor(vetor, tam, bufferedWriter);
+					try
+					{
+						fileWriter = new FileWriter(nomeArq);
+						bufferedWriter = new BufferedWriter(fileWriter);
+					}
+					catch(IOException ex)
+					{
+						System.out.println("Erro ao criar o arquivo '" + nomeArq + "'");
+					}
 
-	    try
-	    {
-	    	bufferedWriter.close();
-		    fileWriter.close();
-		    keyboard.close();
-	    }
-	    catch(IOException ex)
-	    {
-            System.out.println("Erro ao fechar o arquivo '" + nomeArq + "'");
-        }
+					int[] vetor = new int[tam];
+					randomGenerator = new Random();
+
+					if(rpt == 0)
+						geraNumerosDistintos(vetor, tam, lim, randomGenerator);
+					else
+						geraNumerosRepetidos(vetor, tam, lim, randomGenerator);
+
+					if(tipo == 1)
+						ordena(vetor, tam, 1);
+					else if(tipo == 2)
+						ordena(vetor, tam, 2);
+
+					imprimeVetor(vetor, tam, bufferedWriter);
+
+					try
+					{
+						bufferedWriter.close();
+						fileWriter.close();
+						keyboard.close();
+					}
+					catch(IOException ex)
+					{
+						System.out.println("Erro ao fechar o arquivo '" + nomeArq + "'");
+					}
+					
+				}
+			}
+			
+			
+			
+			
+		}
 	}
 }

@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 
 
 import java.io.BufferedReader;
@@ -11,11 +6,8 @@ import java.io.PrintStream;
 import java.util.Arrays;
 import java.util.Scanner;
 
-/**
- *
- * @author wfbr
- */
-public class MergeSort {
+
+public class MergeSortBottomUp {
     public static long recebeVetorEntrada(String arqEntrada, String arqSaida, int tamVetor) {
 
         FileReader fr;
@@ -33,9 +25,9 @@ public class MergeSort {
         }
 
         long crono = System.currentTimeMillis();  
-        mergeSort(vetEnt, 0, vetEnt.length - 1);
+        ordena(vetEnt);
         crono = System.currentTimeMillis() - crono;
-        System.out.println("Merge Sort ordenou a sequência em: \t" + crono  + "\t milissegundo(s)");
+        System.out.println("Merge Sort Bottom Up ordenou a "+arqEntrada+" em: \t" + crono  + "\t milissegundo(s)");
 
         try {
             PrintStream ps;
@@ -50,38 +42,62 @@ public class MergeSort {
         return crono;
     }
 
-    public static void mergeSort(int vetEnt[], int ini, int fim) {
 
-        if (ini < fim) {
-            int meio = (ini + fim) / 2;
-            mergeSort(vetEnt, ini, meio);
-            mergeSort(vetEnt, meio + 1, fim);
-            intercala(vetEnt, ini, meio, fim);
+	public static int[] ordena (int[] vetor){
+		mergesort(vetor);
+		return vetor;
+		
+		
+	}
+	
+	public static void merge(int[] vetor, int[] aux, int inicio, int meio, int fim){
+		
+		int i = inicio;
+		int j = meio+1; 
+		int k = inicio;
+		
+		while (i <= meio && j <= fim) {
+            if (vetor[i] < vetor[j]) {
+                aux[k++] = vetor[i++];
+            } else {
+                aux[k++] = vetor[j++];
+            }
+        }
+
+        // copia o que sobrou
+        while (i < vetor.length && i <= meio) {
+            aux[k++] = vetor[i++];
+        }
+
+        for (i = inicio; i <= fim; i++) {
+            vetor[i] = aux[i];
+        }
+		
+			
+	}
+	
+	public static void mergesort(int[] vetor)
+    {
+        int menor = 0;
+        int maior = vetor.length - 1;
+
+        int[] temp = Arrays.copyOf(vetor, vetor.length);
+
+
+        for (int m = 1; m <= maior - menor; m = 2*m)
+        {
+            for (int i = menor; i < maior; i += 2*m)
+            {
+                int de = i;
+                int meio = i + m - 1;
+                int para = Integer.min(i + 2 * m - 1, maior);
+
+                merge(vetor, temp, de, meio, para);
+            }
         }
     }
-
-    public static void intercala(int vetEnt[], int ini, int meio, int fim) {
-
-        int[] vetAux = new int[vetEnt.length];
-        for (int i = ini; i <= fim; i++) {
-            vetAux[i] = vetEnt[i];
-        }
-
-        int esq = ini;
-        int dir = meio + 1;
-        //int atual = ini;
-        
-        for(int k = ini; k <= fim; k++){
-            if(esq > meio) 
-                vetEnt[k] = vetAux[dir++];
-            else if(dir>fim)
-                vetEnt[k] = vetAux[esq++];
-            else if(vetAux[esq] < vetAux[dir])
-                vetEnt[k] = vetAux[esq++];
-            else
-                vetEnt[k] = vetAux[dir++];           
-        }
-    }
+	
+	
 
     public static void main(String[] args) {
 
@@ -92,6 +108,6 @@ public class MergeSort {
         String arqEntrada = scan.next();
         System.out.print("Informe o nome do Arquivo que irá conter os números depois de ordenados: ");
         String arqSaida = scan.next();
-        MergeSort.recebeVetorEntrada(arqEntrada, arqSaida, tamVetor);
+        MergeSortBottomUp.recebeVetorEntrada(arqEntrada, arqSaida, tamVetor);
     }
 }

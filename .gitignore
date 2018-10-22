@@ -105,4 +105,7 @@ nbdist/
 .nb-gradle/
 
 
+analise*.txt
+saida/
+
 # End of https://www.gitignore.io/api/java,eclipse,netbeans

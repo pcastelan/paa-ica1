@@ -10,7 +10,7 @@ import java.util.Scanner;
 public class MergeSortTopDown {
     public static long recebeVetorEntrada(String arqEntrada, String arqSaida, int tamVetor) {
 
-        FileReader fr;
+       FileReader fr;
         BufferedReader br;
         int vetEnt[] = new int[tamVetor];
         try {
@@ -27,7 +27,7 @@ public class MergeSortTopDown {
         long crono = System.currentTimeMillis();  
         ordena(vetEnt, 0, vetEnt.length - 1);
         crono = System.currentTimeMillis() - crono;
-        System.out.println("Merge Sort ordenou a sequência em: \t" + crono  + "\t milissegundo(s)");
+        System.out.println("MergeTopDown ordenou a "+arqEntrada+" em: \t" + crono  + "\t milissegundo(s)");
 
         try {
             PrintStream ps;
@@ -97,8 +97,9 @@ public class MergeSortTopDown {
 			
 	}
 
-    public static void main(String[] args) {
-
+     public static void main(String[] args) {
+	
+		
         Scanner scan = new Scanner(System.in);
         System.out.print("Informe a quantidade de números a ser ordenada: ");
         int tamVetor = scan.nextInt();
